@@ -19,13 +19,13 @@ export async function getAllPostits() {
     }
 }
 
-export async function createPostit(creator_id, community_id, html_url, css_url, js_url, position_x, position_y, size_width, size_height) {
+export async function createPostit(creator_id, community_id, html_url, position_x, position_y, size_width, size_height) {
 
     const QUERY = `
-    INSERT INTO postit (creator_id, community_id, html_url, position_x, position_y, size_width, size_height) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    INSERT INTO postit (creator_id, community_id, html_url, position_x, position_y, size_width, size_height) VALUES (?, ?, ?, ?, ?, ?, ?);
     `;
 
-    const VALUES = [creator_id, community_id, html_url, css_url, js_url, position_x, position_y, size_width, size_height];
+    const VALUES = [creator_id, community_id, html_url, position_x, position_y, size_width, size_height];
 
     try {
         const response = await pool.query(QUERY, VALUES);
