@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/card"
 import SortBy from "@/components/SortBy";
 import { useState } from "react";
+import ThreadRow from '@/components/ui/threadRow';
 
 export default function subcomm() {
     const [threads, setThreads] = useState(Array.from({ length: 10 }, (_, i) => i + 1));
@@ -42,13 +43,14 @@ export default function subcomm() {
 
             {/* Div Section */}
 
-            <div className="w-full max-w-[1024] flex flex-col gap-2">
+            <div className="w-full max-w-[1024] flex flex-col gap-8">
 
 
             {threads.map((value, index) => {
-                return <Card className="w-full h-48 bg-red-500 flex items-center justify-center text-white" key={index}>
-                    {index}
-                </Card>
+                // return <Card className="w-full h-48 bg-red-500 flex items-center justify-center text-white" key={index}>
+                //     {index}
+                // </Card>
+                return <ThreadRow key={value}></ThreadRow>
             })}
             </div>
 
