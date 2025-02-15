@@ -4,7 +4,7 @@ import pool from '@/lib/db';
 
 export async function getAllUsers() {
     try {
-        const [rows] = await pool.query('SELECT * FROM users');
+        const [rows] = await pool.query('SELECT (user_id, username, image_url) FROM users');
         return {results: rows};
     } catch (error) {
         return {error: error.message};
@@ -23,7 +23,7 @@ export async function createUser(username, password) {
 
 export async function getUserById(id) {
     try {
-        const [rows] = await pool.query('SELECT * FROM users WHERE user_id = ?', [id]);
+        const [rows] = await pool.query('SELECT (user_id, username, image_url) FROM users WHERE user_id = ?', [id]);
         return {results: rows};
     } catch (error) {
         return {error: error.message};
@@ -32,7 +32,7 @@ export async function getUserById(id) {
 
 export async function getUserByUsername(username) {
     try {
-        const [rows] = await pool.query('SELECT * FROM users WHERE username = ?', [username]);
+        const [rows] = await pool.query('SELECT (user_id, username, image_url) FROM users WHERE username = ?', [username]);
         return {results: rows};
     } catch (error) {
         return {error: error.message};

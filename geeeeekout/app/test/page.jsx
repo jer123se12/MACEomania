@@ -4,38 +4,36 @@ import { useEffect, useState } from 'react';
 
 export default function Page() {
 
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const [name, setName] = useState('');
 
-    function handleSubmit(e) {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        fetch('/api/users/auth', {
+        const body = {
+            owner_id: 1,
+            name: name
+        }
+
+        const response = await fetch('/api/community', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({
-                username: username,
-                userPw: password
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data);
-        })
-        .catch(error => {
-            console.error(error);
+            body: JSON.stringify(body)
         });
+
+        const data = await response.json();
+
+        console.log(data);
     }
+
     
     return (
         <div>
-            <h1>Login</h1>
+            <h1>Create Community</h1>
 
             <form onSubmit={handleSubmit}>
-                <input type="text" id="username" placeholder="Username" onChange={(e) => setUsername(e.target.value)} />
-                <input type="password" id="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} />
+                <input type="text" value={name} onChange={(e) => setName(e.target.value)} />
                 <button>Submit</button>
             </form>
         </div>
