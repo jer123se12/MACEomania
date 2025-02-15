@@ -28,9 +28,9 @@ export async function POST(req) {
     const body = await req.json();
 
 
-    const { name, owner_id, image_url } = body;
+    const { name, description, owner_id, image_url } = body;
 
-    const data = await createCommunity(name, owner_id, image_url);
+    const data = await createCommunity(name, description, owner_id, image_url);
 
     if (data.error) {
         return new Response(JSON.stringify(data), {

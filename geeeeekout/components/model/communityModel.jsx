@@ -6,7 +6,7 @@ import async from './../../app/components/api/getUsers';
 export async function getAllCommunities() {
 
     const QUERY = `
-    SELECT c.community_id, c.name, u.username, c.bulletin_postit_limit, c.image_url FROM community AS c
+    SELECT c.community_id, c.name, c.description, u.username, c.bulletin_postit_limit, c.image_url FROM community AS c
     INNER JOIN user AS u ON c.owner_id = u.user_id;
     `;
 
@@ -18,13 +18,13 @@ export async function getAllCommunities() {
     }
 }
 
-export async function createCommunity(name, owner_id, image_url) {
+export async function createCommunity(name, description, owner_id, image_url) {
 
     const QUERY = `
-    INSERT INTO community (name, owner_id, image_url) VALUES (?, ?, ?);
+    INSERT INTO community (name, description, owner_id, image_url) VALUES (?, ?, ?, ?)
     `;
 
-    const VALUES = [name, owner_id, image_url];
+    const VALUES = [name, description, owner_id, image_url];
 
     try {
         const response = await pool.query(QUERY, VALUES);
@@ -38,7 +38,7 @@ export async function createCommunity(name, owner_id, image_url) {
 export async function getCommunityById(id) {
 
     const QUERY = `
-    SELECT c.community_id, c.name, u.username, c.bulletin_postit_limit, c.image_url FROM community AS c
+    SELECT c.community_id, c.name, c.description, u.username, c.bulletin_postit_limit, c.image_url FROM community AS c
     INNER JOIN user AS u ON c.owner_id = u.user_id
     WHERE c.community_id = ?;
     `;
@@ -93,7 +93,7 @@ export async function updateCommunityImageById(id, image_url) {
 export async function getCommunityByName(name) {
 
     const QUERY = `
-    SELECT c.community_id, c.name, u.username, c.bulletin_postit_limit, c.image_url FROM community AS c
+    SELECT c.community_id, c.name, c.description, u.username, c.bulletin_postit_limit, c.image_url FROM community AS c
     INNER JOIN user AS u ON c.owner_id = u.user_id
     WHERE c.name = ?;
     `;
