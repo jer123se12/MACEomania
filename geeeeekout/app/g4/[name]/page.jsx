@@ -18,11 +18,11 @@ import { motion, useScroll, useTransform } from "motion/react"
 import { ChevronDown } from 'lucide-react';
 
 
-export default function subcomm({params}) {
+export default function subcomm({ params }) {
     const [threads, setThreads] = useState([]);
     const [postits, setPostits] = useState([]);
-    const [hover,setHover]=useState(-1);
-    const [boards,setBoard]=useState([]);
+    const [hover, setHover] = useState(-1);
+    const [boards, setBoard] = useState([]);
     const [info, setInfo] = useState({});
     const [community, setCommunity] = useState("");
 
@@ -41,42 +41,42 @@ export default function subcomm({params}) {
         });
     }, []);
     useEffect(() => {
-        if(community==="") return;
-        console.log('/api/community/'+community+'/threads')
-        fetch('/api/community/'+community+'/threads').then((res) => res.json()).then((data) => {
+        if (community === "") return;
+        console.log('/api/community/' + community + '/threads')
+        fetch('/api/community/' + community + '/threads').then((res) => res.json()).then((data) => {
             setThreads(data);
         });
-        fetch('/api/community/'+community+'/postits').then((res) => res.json()).then((data) => {
+        fetch('/api/community/' + community + '/postits').then((res) => res.json()).then((data) => {
             console.log(data);
             setPostits(data);
         });
-        fetch('/api/community/'+community).then((res) => res.json()).then((data) => {
+        fetch('/api/community/' + community).then((res) => res.json()).then((data) => {
             console.log(data);
             setInfo(data[0]);
         });
     }, [community]);
 
     return <>
-        <motion.div className="w-full absolute flex justify-center mt-[90vh] z-10" ref={ref} style={{opacity: chevState}}>
-            <ChevronDown size={50}/>
+        <motion.div className="w-full absolute flex justify-center mt-[90vh] z-10" ref={ref} style={{ opacity: chevState }}>
+            <ChevronDown size={50} />
         </motion.div>
         <NavMenu></NavMenu>
         <div className="flex flex-col items-center gap-4 p-4">
             {/* Iframe Placeholder */}
-            
+
             <Comboard boards={boards} hover={hover}></Comboard>
             <div className="absolute right-0 top-0 h-full overflow-hidden">
                 <SideBar boards={boards} hoverCallback={setHover}></SideBar>
-                </div>
+            </div>
             {/* Description */}
-            <motion.div className={"w-full max-w-[1024]"} style={{opacity: descState}}>
+            <motion.div className={"w-full max-w-[1024]"} style={{ opacity: descState }}>
                 <Card className="w-full max-w-[1024] h-40 flex items-center justify-left text-5xl">
-                <CardHeader>
-                    <CardTitle>{community}</CardTitle>
-                    <CardDescription>{info.description}</CardDescription>
-                </CardHeader>
-                <CardContent></CardContent>
-            </Card>
+                    <CardHeader>
+                        <CardTitle>{community}</CardTitle>
+                        <CardDescription>{info.description}</CardDescription>
+                    </CardHeader>
+                    <CardContent></CardContent>
+                </Card>
             </motion.div>
 
 
@@ -94,12 +94,12 @@ export default function subcomm({params}) {
             <div className="w-full max-w-[1024] flex flex-col gap-8">
 
 
-            {threads.map((value ) =>{
-                // return <Card className="w-full h-48 bg-red-500 flex items-center justify-center text-white" key={index}>
-                //     {index}
-                // </Card>
-                return <ThreadRow key={value.thread_id} thread_name={value.title} thread_content={value.content}></ThreadRow>
-            })}
+                {threads.map((value) => {
+                    // return <Card className="w-full h-48 bg-red-500 flex items-center justify-center text-white" key={index}>
+                    //     {index}
+                    // </Card>
+                    return <ThreadRow key={value.thread_id} thread_name={value.title} thread_content={value.content}></ThreadRow>
+                })}
             </div>
 
         </div>
