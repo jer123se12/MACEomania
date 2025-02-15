@@ -1,12 +1,12 @@
-"use server";
+'use server';
 
-import { getThreadsByCommunityId } from '@/components/model/threadModel';
+import { getPostitByCommunityName } from '@/components/model/postitModel';
 
 export async function GET(req, { params }) {
+    
+    const { name } = await params;
 
-    const { id } = await params;
-
-    const data = await getThreadsByCommunityId(id);
+    const data = await getPostitByCommunityName(name);
 
     if (data.error) {
         return new Response(JSON.stringify(data), {

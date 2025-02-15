@@ -1,12 +1,12 @@
 "use server";
 
-import { getCommunityById } from '@/components/model/communityModel';
+import { getThreadsByCommunityName } from '@/components/model/threadModel';
 
 export async function GET(req, { params }) {
-    
-    const { id } = await params;
 
-    const data = await getCommunityById(id);
+    const { name } = await params;
+
+    const data = await getThreadsByCommunityName(name);
 
     if (data.error) {
         return new Response(JSON.stringify(data), {

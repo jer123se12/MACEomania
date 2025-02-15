@@ -1,13 +1,13 @@
 'use server';
 
-import { getCommunityImageById, updateCommunityImageById } from '@/components/model/communityModel';
+import { getCommunityImageByName, updateCommunityImageByName } from '@/components/model/communityModel';
 import { UploadFile } from '@/lib/upload';
 
 export async function GET(req, { params }) {
 
-    const { id } = await params;
+    const { name } = await params;
 
-    const data = await getCommunityImageById(id);
+    const data = await getCommunityImageByName(name);
 
     if (data.error) {
         return new Response(JSON.stringify(data), {
@@ -28,7 +28,7 @@ export async function GET(req, { params }) {
 
 export async function PUT(req, { params }) {
 
-    const { id } = await params;
+    const { name } = await params;
 
     // image file from request body
     const form = await req.formData();
@@ -45,7 +45,7 @@ export async function PUT(req, { params }) {
 
     const URL = data.results;
 
-    const update = await updateCommunityImageById(id, URL);
+    const update = await updateCommunityImageByName(name, URL);
 
     if (update.error) {
         return new Response(JSON.stringify(update), {

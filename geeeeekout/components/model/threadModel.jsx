@@ -70,3 +70,23 @@ export async function getThreadsByCommunityId(community_id) {
         return {error: error.message};
     }
 }
+
+export async function getThreadsByCommunityName(community_name) {
+
+    const QUERY = `
+    SELECT t.thread_id, t.title, t.content, u.username, t.date_created FROM thread as t
+    INNER JOIN user as u on t.creator_id = u.user_id
+    INNER JOIN community as c on t.community_id = c.community_id
+    WHERE c.name = ?
+    ORDER BY t.date_created DESC
+    `;
+
+    const VALUES = [community_name];
+
+    try {
+        const [rows] = await pool.query(QUERY, VALUES);
+        return {results: rows};
+    } catch (error) {
+        return {error: error.message};
+    }
+}
