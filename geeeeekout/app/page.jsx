@@ -35,6 +35,8 @@ export default function landing() {
   const [cfmPassword, setcfmPassword] = useState('');
   const [loginO, setloginO] = useState(false);
   const [singupO, setsignupO] = useState(false);
+  const [isWrong, setisWrong] = useState(false);
+  const [isDifferentPassword, setDiferentPassword] = useState(false);
   const click = () => {
     console.log("clicked")
     console.log(password)
@@ -73,6 +75,7 @@ export default function landing() {
                     onChange={(e) => setPassword(e.target.value)}/>
                   </div>
                   <Button type="submit" onClick={click}>Submit</Button>
+                  {isWrong && <div className="text-red-500">Wrong username or password</div>}
                   <div className="text-center">
                   or<br/>
                   <div onClick={signup} className="text-stone-500 hover:cursor-pointer max-w-content">
@@ -109,6 +112,7 @@ export default function landing() {
             <Label htmlFor="password">Confirm Password</Label>
             <Input type="password" placeholder="password"
               onChange={(e) => setcfmPassword(e.target.value)} />
+                  {isDifferentPassword && <div className="text-red-500">Passwords do not match</div>}
           </div>
           <Button type="submit" onClick={click}>Submit</Button>
         </DialogContent>
