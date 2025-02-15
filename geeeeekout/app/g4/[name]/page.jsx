@@ -57,7 +57,7 @@ export default function subcomm({params}) {
     }, [community]);
 
     return <>
-        <motion.div className="w-full absolute flex justify-center mt-[90vh]" ref={ref} style={{opacity: chevState}}>
+        <motion.div className="w-full absolute flex justify-center mt-[90vh] z-10" ref={ref} style={{opacity: chevState}}>
             <ChevronDown size={50}/>
         </motion.div>
         <NavMenu></NavMenu>
