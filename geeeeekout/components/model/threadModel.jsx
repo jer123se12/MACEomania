@@ -4,7 +4,7 @@ import pool from "@/lib/db";
 
 export async function getAllThreads() {
     try {
-        const [rows] = await pool.query('SELECT * FROM threads');
+        const [rows] = await pool.query('SELECT * FROM thread');
         return {results: rows};
     } catch (error) {
         return {error: error.message};
@@ -13,7 +13,7 @@ export async function getAllThreads() {
 
 export async function createThread(title, content, creator_id, community_id) {
     try {
-        const response = await pool.query('INSERT INTO threads (title, content, creator_id, community_id) VALUES (?, ?, ?, ?)', [title, content, creator_id, community_id]);
+        const response = await pool.query('INSERT INTO thread (title, content, creator_id, community_id) VALUES (?, ?, ?, ?)', [title, content, creator_id, community_id]);
         const inserted_id = response[0].insertId;
         return {results: inserted_id};
     } catch (error) {
@@ -23,7 +23,16 @@ export async function createThread(title, content, creator_id, community_id) {
 
 export async function getThreadById(id) {
     try {
-        const [rows] = await pool.query('SELECT * FROM threads WHERE thread_id = ?', [id]);
+        const [rows] = await pool.query('SELECT * FROM thread WHERE thread_id = ?', [id]);
+        return {results: rows};
+    } catch (error) {
+        return {error: error.message};
+    }
+}
+
+export async function getThreadByCommunityId(community_id) {
+    try {
+        const [rows] = await pool.query('SELECT * FROM thread WHERE community_id = ? ORDER BY date_created DESC', [community_id]);
         return {results: rows};
     } catch (error) {
         return {error: error.message};
