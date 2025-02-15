@@ -5,7 +5,7 @@ import pool from '@/lib/db';
 export async function getAllPostits() {
 
     const QUERY = `
-    SELECT (p.postit_id, u.username, p.community_id, p.html_url, p.css_url, p.js_url, p.position_x, p.position_y, p.size_width, p.size_height) FROM postit as p
+    SELECT p.postit_id, u.username, p.community_id, p.html_url, p.css_url, p.js_url, p.position_x, p.position_y, p.size_width, p.size_height FROM postit as p
     INNER JOIN user as u on p.creator_id = u.user_id;
     `;
 
@@ -39,7 +39,7 @@ export async function createPostit(creator_id, community_id, html_url, css_url, 
 export async function getPostitById(id) {
 
     const QUERY = `
-    SELECT (p.postit_id, u.username, p.community_id, p.html_url, p.css_url, p.js_url, p.position_x, p.position_y, p.size_width, p.size_height) FROM postit as p
+    SELECT p.postit_id, u.username, p.community_id, p.html_url, p.css_url, p.js_url, p.position_x, p.position_y, p.size_width, p.size_height FROM postit as p
     INNER JOIN user as u on p.creator_id = u.user_id
     WHERE p.postit_id = ?;
     `;
@@ -58,7 +58,7 @@ export async function getPostitById(id) {
 export async function getPostitByCommunityId(id) {
 
     const QUERY = `
-    SELECT (p.postit_id, u.username, p.community_id, p.html_url, p.css_url, p.js_url, p.position_x, p.position_y, p.size_width, p.size_height) FROM postit as p
+    SELECT p.postit_id, u.username, p.community_id, p.html_url, p.css_url, p.js_url, p.position_x, p.position_y, p.size_width, p.size_height FROM postit as p
     INNER JOIN user as u on p.creator_id = u.user_id
     WHERE p.community_id = ?
     ORDER BY p.date_created DESC;
@@ -78,7 +78,7 @@ export async function getPostitByCommunityId(id) {
 export async function getPostitByCommunityName(name) {
     
     const QUERY = `
-    SELECT (p.postit_id, u.username, p.community_id, p.html_url, p.css_url, p.js_url, p.position_x, p.position_y, p.size_width, p.size_height) FROM postit as p
+    SELECT p.postit_id, u.username, p.community_id, p.html_url, p.css_url, p.js_url, p.position_x, p.position_y, p.size_width, p.size_height FROM postit as p
     INNER JOIN user as u on p.creator_id = u.user_id
     INNER JOIN community as c on p.community_id = c.community_id
     WHERE c.name = ?
