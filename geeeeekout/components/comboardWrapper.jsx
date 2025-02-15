@@ -4,19 +4,21 @@ import Comboard from '@/components/comboard';
 
 import { useEffect, useState } from 'react';
 
+import { DownloadFile } from '@/lib/download';
+
 export default function ComboardWrapper({boards, hover}) {
 
     // get the html data
     async function getHTML(url) {
-        const response = await fetch(url);
-        return await response.text();
+        const data = await DownloadFile(url, 'FILES');
+        return data.toString('utf8');
     }
 
     async function insertHTMLDataToBoards() {
         const newBoards = await Promise.all(boards.map(async function(b) {
             const html = await getHTML(b.html_url);
             
-            console.log(html);
+            console.log(html);  
 
             return {
                 ...b,

@@ -19,14 +19,16 @@ export async function DownloadFile(url, bucket) {
 
         const storage = new Storage({});
 
-        const bucket = storage.bucket(BucketList[bucket]);
-        const file = bucket.file(FILENAME);
+        const FILENAME
 
-        const [data] = await file.download();
+        const stream = storage.bucket(BucketList[bucket]).file(FILENAME).createReadStream();
 
-        const buffer = Buffer.from(data);
+        let data = '';
+        for await (const chunk of stream) {
+            data += chunk;
+        }
 
-        return buffer;
+        return data;
     } catch (error) {
         console.error(error);
         return { error: error.message };

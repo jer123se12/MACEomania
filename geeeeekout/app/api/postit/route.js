@@ -27,9 +27,9 @@ export async function POST(req) {
 
     const body = await req.json();
 
-    const { creator_id, community_id, html_url, css_url, js_url, position_x, position_y, size_width, size_height } = body;
+    const { creator_id, community_id, html_url, position_x, position_y, size_width, size_height } = body;
 
-    const data = await createPostit(creator_id, community_id, html_url, css_url, js_url, position_x, position_y, size_width, size_height);
+    const data = await createPostit(creator_id, community_id, html_url, position_x, position_y, size_width, size_height);
 
     if (data.error) {
         return new Response(JSON.stringify(data), {
