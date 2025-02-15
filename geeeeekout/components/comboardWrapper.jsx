@@ -2,20 +2,42 @@ import React from 'react'
 
 import Comboard from '@/components/comboard';
 
-export default async function ComboardWrapper({boards, hover}) {
+import { useEffect, useState } from 'react';
+
+export default function ComboardWrapper({boards, hover}) {
 
     // get the html data
-    for (let i = 0; i < boards.length; i++) {
-        let board = boards[i];
-
-        console.log(board);
-
-        const data = await fetch(board.html_url);
-        console.log(data);
+    async function getHTML(url) {
+        const response = await fetch(url);
+        return await response.text();
     }
 
-    console.log(boards);
+    async function insertHTMLDataToBoards() {
+        const newBoards = await Promise.all(boards.map(async function(b) {
+            const html = await getHTML(b.html_url);
+            
+            console.log(html);
 
+            return {
+                ...b,
+                html,
+            }
+        }));
 
-    return <Comboard boards={boards} hover={hover}/>
+        console.log(newBoards);
+
+        return newBoards;
+    }
+
+    const [renderedBoards, setRenderedBoards] = useState([]);
+
+    useEffect(() => {
+        insertHTMLDataToBoards().then((newBoards) => {
+            setRenderedBoards(newBoards);
+        });
+    }, [boards]);
+
+    return <>
+        <Comboard boards={renderedBoards} hover={hover}/>
+    </>
 }
