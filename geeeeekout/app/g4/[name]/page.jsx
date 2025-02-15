@@ -38,7 +38,7 @@ export default function subcomm({params}) {
         });
         fetch('/api/community/'+community).then((res) => res.json()).then((data) => {
             console.log(data);
-            setInfo(data);
+            setInfo(data[0]);
         });
     }, [community]);
 
@@ -54,7 +54,7 @@ export default function subcomm({params}) {
             <Card className="w-full max-w-[1024] h-40 flex items-center justify-left text-5xl">
                 <CardHeader>
                     <CardTitle>{community}</CardTitle>
-                    <CardDescription>Deploy your new project in one-click.</CardDescription>
+                    <CardDescription>{info.description}</CardDescription>
                 </CardHeader>
                 <CardContent></CardContent>
             </Card>
