@@ -27,7 +27,6 @@ export async function POST(req) {
     
         const body = await req.json();
     
-    
         const { title, content, creator_id, community_id } = body;
     
         const data = await createThread(title, content, creator_id, community_id);

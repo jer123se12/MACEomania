@@ -30,7 +30,7 @@ export async function getThreadById(id) {
     }
 }
 
-export async function getThreadByCommunityId(community_id) {
+export async function getThreadsByCommunityId(community_id) {
     try {
         const [rows] = await pool.query('SELECT * FROM thread WHERE community_id = ? ORDER BY date_created DESC', [community_id]);
         return {results: rows};
