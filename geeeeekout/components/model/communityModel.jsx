@@ -3,8 +3,14 @@
 import pool from '@/lib/db';
 
 export async function getAllCommunities() {
+
+    const QUERY = `
+    SELECT c.community_id, c.name, u.username, c.bulletin_postit_limit FROM community AS c
+    INNER JOIN user AS u ON c.owner_id = u.user_id;
+    `;
+
     try {
-        const [rows] = await pool.query('SELECT * FROM community');
+        const [rows] = await pool.query(QUERY);
         return {results: rows};
     } catch (error) {
         return {error: error.message};
@@ -12,8 +18,15 @@ export async function getAllCommunities() {
 }
 
 export async function createCommunity(name, owner_id) {
+
+    const QUERY = `
+    INSERT INTO community (name, owner_id) VALUES (?, ?)
+    `;
+
+    const VALUES = [name, owner_id];
+
     try {
-        const response = await pool.query('INSERT INTO community (name, owner_id) VALUES (?, ?)', [name, owner_id]);  
+        const response = await pool.query(QUERY, VALUES);
         const inserted_id = response[0].insertId;
         return {results: inserted_id};
     } catch (error) {
@@ -22,8 +35,17 @@ export async function createCommunity(name, owner_id) {
 }
 
 export async function getCommunityById(id) {
+
+    const QUERY = `
+    SELECT c.community_id, c.name, u.username, c.bulletin_postit_limit FROM community AS c
+    INNER JOIN user AS u ON c.owner_id = u.user_id
+    WHERE c.community_id = ?;
+    `;
+
+    const VALUES = [id];
+
     try {
-        const [rows] = await pool.query('SELECT * FROM community WHERE community_id = ?', [id]);
+        const [rows] = await pool.query(QUERY, VALUES);
         return {results: rows};
     } catch (error) {
         return {error: error.message};

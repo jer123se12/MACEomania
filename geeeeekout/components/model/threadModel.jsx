@@ -3,8 +3,14 @@
 import pool from "@/lib/db";
 
 export async function getAllThreads() {
+
+    const QUERY = `
+    SELECT t.thread_id, t.title, t.content, u.username, t.date_created FROM thread as t
+    INNER JOIN user as u on t.creator_id = u.user_id;
+    `;
+
     try {
-        const [rows] = await pool.query('SELECT * FROM thread');
+        const [rows] = await pool.query(QUERY);
         return {results: rows};
     } catch (error) {
         return {error: error.message};
@@ -12,8 +18,15 @@ export async function getAllThreads() {
 }
 
 export async function createThread(title, content, creator_id, community_id) {
+
+    const QUERY = `
+    INSERT INTO thread (title, content, creator_id, community_id) VALUES (?, ?, ?, ?)
+    `;
+
+    const VALUES = [title, content, creator_id, community_id];
+
     try {
-        const response = await pool.query('INSERT INTO thread (title, content, creator_id, community_id) VALUES (?, ?, ?, ?)', [title, content, creator_id, community_id]);
+        const response = await pool.query(QUERY, VALUES);
         const inserted_id = response[0].insertId;
         return {results: inserted_id};
     } catch (error) {
@@ -22,8 +35,17 @@ export async function createThread(title, content, creator_id, community_id) {
 }
 
 export async function getThreadById(id) {
+
+    const QUERY = `
+    SELECT t.thread_id, t.title, t.content, u.username, t.date_created FROM thread as t
+    INNER JOIN user as u on t.creator_id = u.user_id
+    WHERE t.thread_id = ?
+    `;
+
+    const VALUES = [id];
+
     try {
-        const [rows] = await pool.query('SELECT * FROM thread WHERE thread_id = ?', [id]);
+        const [rows] = await pool.query(QUERY, VALUES);
         return {results: rows};
     } catch (error) {
         return {error: error.message};
@@ -31,8 +53,18 @@ export async function getThreadById(id) {
 }
 
 export async function getThreadsByCommunityId(community_id) {
+
+    const QUERY = `
+    SELECT t.thread_id, t.title, t.content, u.username, t.date_created FROM thread as t
+    INNER JOIN user as u on t.creator_id = u.user_id
+    WHERE t.community_id = ?
+    ORDER BY t.date_created DESC
+    `;
+
+    const VALUES = [community_id];
+
     try {
-        const [rows] = await pool.query('SELECT * FROM thread WHERE community_id = ? ORDER BY date_created DESC', [community_id]);
+        const [rows] = await pool.query(QUERY, VALUES);
         return {results: rows};
     } catch (error) {
         return {error: error.message};
