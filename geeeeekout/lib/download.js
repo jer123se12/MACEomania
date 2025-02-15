@@ -17,9 +17,10 @@ export async function DownloadFile(url, bucket) {
 
         if (!BucketList[bucket]) throw new Error('Invalid bucket name');
 
-        const storage = new Storage({});
+        const storage = new Storage();
 
-        const FILENAME
+        console.log(BucketList[bucket]);
+        console.log(FILENAME);
 
         const stream = storage.bucket(BucketList[bucket]).file(FILENAME).createReadStream();
 

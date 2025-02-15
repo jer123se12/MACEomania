@@ -11,14 +11,12 @@ export default function ComboardWrapper({boards, hover}) {
     // get the html data
     async function getHTML(url) {
         const data = await DownloadFile(url, 'FILES');
-        return data.toString('utf8');
+        return data
     }
 
     async function insertHTMLDataToBoards() {
         const newBoards = await Promise.all(boards.map(async function(b) {
             const html = await getHTML(b.html_url);
-            
-            console.log(html);  
 
             return {
                 ...b,

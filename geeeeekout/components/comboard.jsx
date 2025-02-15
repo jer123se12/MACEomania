@@ -6,15 +6,14 @@ export default function Comboard({boards, hover}) {
 
     const renderedBoards= boards.map(function(b) {
         
-        const sourceD=b.html_url+"<style>"+b.css_url+"</style>"+"<script>"+b.js_url+"</script>";
-        const hoverS=hover===b.id?"solid 5px red.":"";
+        const hoverS=hover===b.postit_id?"solid 5px red.":"";
         return <iframe 
-            key={b.id}
-            srcDoc={sourceD}
-            width={b.width}
-            height={b.height}
-            style={{ left: b.pos.x - (hover==b.id ? 4 : 0) + "px", top: b.pos.y -(hover==b.id ? 4 : 0)+ "px", border: hoverS ,zIndex:b.upvotes}}
-            className={`absolute ${hover===b.id?"border-4 border-blue-500":""} z-${b.upvotes}`}
+            key={b.postit_id}
+            srcDoc={b.html}
+            width={b.size_width}
+            height={b.size_height}
+            style={{ left: b.position_x - (hover==b.postit_id ? 4 : 0) + "px", top: b.position_y -(hover==b.postit_id ? 4 : 0)+ "px", border: hoverS ,zIndex:b.upvotes}}
+            className={`absolute ${hover===b.postit_id?"border-4 border-blue-500":""} z-${b.upvotes}`}
             ></iframe>;
     });
     return <>
