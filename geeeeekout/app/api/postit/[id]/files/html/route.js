@@ -32,6 +32,7 @@ export async function PUT(req, { params }) {
 
     const body = await req.json();
 
+    console.log(body)
 
     const blob = new Blob([body.data], { type: 'text/html' });
 

@@ -11,38 +11,33 @@ export default function Page() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const body = {
-            data: javascript
+        const combined = `<!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>${css}</style>
+            <script>${javascript}</script>
+        </head>
+        <body>
+            ${html}
+        </body>
+        </html>`;
+
+        const file = {
+            data: combined,
         }
 
-        const response = await fetch('/api/postit/1/files/javascript', {
+        const response = await fetch('/api/postit/1/files/html', {
             method: 'PUT',
-            body: JSON.stringify(body)
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(file),
         });
 
-        console.log(response);
-
-        const body2 = {
-            data: css
-        }
-
-        const response2 = await fetch('/api/postit/1/files/css', {
-            method: 'PUT',
-            body: JSON.stringify(body2)
-        });
-
-        console.log(response2);
-
-        const body3 = {
-            data: html
-        }
-
-        const response3 = await fetch('/api/postit/1/files/html', {
-            method: 'PUT',
-            body: JSON.stringify(body3)
-        });
-
-        console.log(response3);
+        const data = await response.json();
     }
 
     return (

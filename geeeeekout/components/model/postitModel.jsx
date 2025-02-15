@@ -6,7 +6,7 @@ import { effectCar } from './../../node_modules/react-remove-scroll/dist/es2015/
 export async function getAllPostits() {
 
     const QUERY = `
-    SELECT p.postit_id, u.username, p.community_id, p.html_url, p.css_url, p.js_url, p.position_x, p.position_y, p.size_width, p.size_height FROM postit as p
+    SELECT p.postit_id, u.username, p.community_id, p.html_url, p.position_x, p.position_y, p.size_width, p.size_height FROM postit as p
     INNER JOIN user as u on p.creator_id = u.user_id;
     `;
 
@@ -22,7 +22,7 @@ export async function getAllPostits() {
 export async function createPostit(creator_id, community_id, html_url, css_url, js_url, position_x, position_y, size_width, size_height) {
 
     const QUERY = `
-    INSERT INTO postit (creator_id, community_id, html_url, css_url, js_url, position_x, position_y, size_width, size_height) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    INSERT INTO postit (creator_id, community_id, html_url, position_x, position_y, size_width, size_height) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
     const VALUES = [creator_id, community_id, html_url, css_url, js_url, position_x, position_y, size_width, size_height];
@@ -40,7 +40,7 @@ export async function createPostit(creator_id, community_id, html_url, css_url, 
 export async function getPostitById(id) {
 
     const QUERY = `
-    SELECT p.postit_id, u.username, p.community_id, p.html_url, p.css_url, p.js_url, p.position_x, p.position_y, p.size_width, p.size_height FROM postit as p
+    SELECT p.postit_id, u.username, p.community_id, p.html_url, p.position_x, p.position_y, p.size_width, p.size_height FROM postit as p
     INNER JOIN user as u on p.creator_id = u.user_id
     WHERE p.postit_id = ?;
     `;
@@ -59,7 +59,7 @@ export async function getPostitById(id) {
 export async function getPostitByCommunityId(id) {
 
     const QUERY = `
-    SELECT p.postit_id, u.username, p.community_id, p.html_url, p.css_url, p.js_url, p.position_x, p.position_y, p.size_width, p.size_height FROM postit as p
+    SELECT p.postit_id, u.username, p.community_id, p.html_url, p.position_x, p.position_y, p.size_width, p.size_height FROM postit as p
     INNER JOIN user as u on p.creator_id = u.user_id
     WHERE p.community_id = ?
     ORDER BY p.date_created DESC;
@@ -79,7 +79,7 @@ export async function getPostitByCommunityId(id) {
 export async function getPostitByCommunityName(name) {
     
     const QUERY = `
-    SELECT p.postit_id, u.username, p.community_id, p.html_url, p.css_url, p.js_url, p.position_x, p.position_y, p.size_width, p.size_height FROM postit as p
+    SELECT p.postit_id, u.username, p.community_id, p.html_url, p.position_x, p.position_y, p.size_width, p.size_height FROM postit as p
     INNER JOIN user as u on p.creator_id = u.user_id
     INNER JOIN community as c on p.community_id = c.community_id
     WHERE c.name = ?
@@ -91,74 +91,6 @@ export async function getPostitByCommunityName(name) {
     try {
         const [rows] = await pool.query(QUERY, VALUES);
         return {results: rows};
-    }
-    catch (error) {
-        return {error: error.message};
-    }
-}
-
-export async function getPostitJSById(id) {
-
-    const QUERY = `
-    SELECT js_url FROM postit WHERE postit_id = ?;
-    `;
-
-    const VALUES = [id];
-
-    try {
-        const [rows] = await pool.query(QUERY, VALUES);
-        return {results: rows};
-    }
-    catch (error) {
-        return {error: error.message};
-    }
-}
-
-export async function updatePostitJSById(id, js_url) {
-
-    const QUERY = `
-    UPDATE postit SET js_url = ? WHERE postit_id = ?;
-    `;
-
-    const VALUES = [js_url, id];
-
-    try {
-        await pool.query(QUERY, VALUES);
-        return {results: "Postit JS updated"};
-    }
-    catch (error) {
-        return {error: error.message};
-    }
-}
-
-export async function getPostitCSSById(id) {
-
-    const QUERY = `
-    SELECT css_url FROM postit WHERE postit_id = ?;
-    `;
-
-    const VALUES = [id];
-
-    try {
-        const [rows] = await pool.query(QUERY, VALUES);
-        return {results: rows};
-    }
-    catch (error) {
-        return {error: error.message};
-    }
-}
-
-export async function updatePostitCSSById(id, css_url) {
-    
-    const QUERY = `
-    UPDATE postit SET css_url = ? WHERE postit_id = ?;
-    `;
-
-    const VALUES = [css_url, id];
-
-    try {
-        await pool.query(QUERY, VALUES);
-        return {results: "Postit CSS updated"};
     }
     catch (error) {
         return {error: error.message};

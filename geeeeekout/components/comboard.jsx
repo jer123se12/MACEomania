@@ -1,8 +1,12 @@
 import React from 'react'
 
 export default function Comboard({boards, hover}) {
-  const renderedBoards= boards.map(function(b) {
-        const sourceD=b.html+"<style>"+b.css+"</style>"+"<script>"+b.js+"</script>";
+
+    // get the html data
+
+    const renderedBoards= boards.map(function(b) {
+        
+        const sourceD=b.html_url+"<style>"+b.css_url+"</style>"+"<script>"+b.js_url+"</script>";
         const hoverS=hover===b.id?"solid 5px red.":"";
         return <iframe 
             key={b.id}
