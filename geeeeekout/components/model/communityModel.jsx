@@ -51,3 +51,40 @@ export async function getCommunityById(id) {
         return {error: error.message};
     }
 }
+
+export async function getCommunityImageById(id) {
+
+    const QUERY = `
+    SELECT image_url FROM community
+    WHERE community_id = ?
+    `;
+
+    const VALUES = [id];
+
+    try {
+        const [rows] = await pool.query(QUERY, VALUES);
+        return {results: rows[0].image_url};
+    }
+    catch (error) {
+        return {error: error.message};
+    }
+}
+
+export async function updateCommunityImageById(id, image_url) {
+
+    const QUERY = `
+    UPDATE community
+    SET image_url = ?
+    WHERE community_id = ?
+    `;
+
+    const VALUES = [image_url, id];
+
+    try {
+        const response = await pool.query(QUERY, VALUES);
+        return {results: response[0].changedRows};
+    }
+    catch (error) {
+        return {error: error.message};
+    }
+}

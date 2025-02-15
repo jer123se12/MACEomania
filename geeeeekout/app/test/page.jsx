@@ -12,11 +12,8 @@ export default function Page() {
         const formData = new FormData();
         
         const fileData = e.target.file.files[0];
-        const TIMESTAMP = new Date().getTime();
-        const SALT = Math.random().toString(36).substring(2, 15);
-        const fileName = `${TIMESTAMP}-${SALT}`;
 
-        formData.append('file', fileData, fileName);
+        formData.append('file', fileData);
 
         const response = await fetch('/api/users/1/profile-image', {
             method: 'PUT',

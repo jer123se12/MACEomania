@@ -23,11 +23,12 @@ export async function UploadFile(form, bucket) {
 
         const buffer = await file.arrayBuffer();
         const storage = new Storage({});
-        await storage.bucket(BucketList[bucket]).file(file.name).save(Buffer.from(buffer));
+        
+        const TIMESTAMP = new Date().getTime();
+        const SALT = Math.random().toString(36).substring(2, 15);
+        const fileName = `${TIMESTAMP}-${SALT}`;
 
-
-        // Replace spaces with %
-        const fileName = file.name.replace(/ /g, '%20');
+        await storage.bucket(BucketList[bucket]).file(fileName).save(Buffer.from(buffer));
 
         const URL = `https://storage.googleapis.com/${BucketList[bucket]}/${fileName}`;
 
