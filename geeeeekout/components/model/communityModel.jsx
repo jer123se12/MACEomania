@@ -5,7 +5,7 @@ import pool from '@/lib/db';
 export async function getAllCommunities() {
 
     const QUERY = `
-    SELECT c.community_id, c.name, u.username, c.bulletin_postit_limit FROM community AS c
+    SELECT c.community_id, c.name, u.username, c.bulletin_postit_limit, c.image_url FROM community AS c
     INNER JOIN user AS u ON c.owner_id = u.user_id;
     `;
 
@@ -17,13 +17,13 @@ export async function getAllCommunities() {
     }
 }
 
-export async function createCommunity(name, owner_id) {
+export async function createCommunity(name, owner_id, image_url) {
 
     const QUERY = `
-    INSERT INTO community (name, owner_id) VALUES (?, ?)
+    INSERT INTO community (name, owner_id, image_url) VALUES (?, ?, ?);
     `;
 
-    const VALUES = [name, owner_id];
+    const VALUES = [name, owner_id, image_url];
 
     try {
         const response = await pool.query(QUERY, VALUES);
@@ -37,7 +37,7 @@ export async function createCommunity(name, owner_id) {
 export async function getCommunityById(id) {
 
     const QUERY = `
-    SELECT c.community_id, c.name, u.username, c.bulletin_postit_limit FROM community AS c
+    SELECT c.community_id, c.name, u.username, c.bulletin_postit_limit, c.image_url FROM community AS c
     INNER JOIN user AS u ON c.owner_id = u.user_id
     WHERE c.community_id = ?;
     `;

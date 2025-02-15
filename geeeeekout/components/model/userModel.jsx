@@ -5,7 +5,7 @@ import pool from '@/lib/db';
 export async function getAllUsers() {
 
     const QUERY = `
-    SELECT (user_id, username, image_url) FROM users
+    SELECT user_id, username, image_url FROM user
     `;
 
     try {
@@ -19,7 +19,7 @@ export async function getAllUsers() {
 export async function createUser(username, password) {
 
     const QUERY = `
-    INSERT INTO users (username, password) VALUES (?, ?)
+    INSERT INTO user (username, password) VALUES (?, ?)
     `;
 
     const VALUES = [username, password];
@@ -36,7 +36,7 @@ export async function createUser(username, password) {
 export async function getUserById(id) {
 
     const QUERY = `
-    SELECT (user_id, username, image_url) FROM users 
+    SELECT user_id, username, image_url FROM user
     WHERE user_id = ?
     `;
 
@@ -53,7 +53,7 @@ export async function getUserById(id) {
 export async function getUserByUsername(username) {
 
     const QUERY = `
-    SELECT (user_id, username, image_url) FROM users 
+    SELECT user_id, username, image_url FROM user
     WHERE username = ?
     `;
 
@@ -63,6 +63,59 @@ export async function getUserByUsername(username) {
         const [rows] = await pool.query(QUERY, VALUES);
         return {results: rows};
     } catch (error) {
+        return {error: error.message};
+    }
+}
+
+export async function updateUserById(id, username, password, image_url) {
+
+    const QUERY = `
+    UPDATE user SET username = ?, password = ?, image_url = ? 
+    WHERE user_id = ?
+    `;
+
+    const VALUES = [username, password, image_url, id];
+
+    try {
+        const response = await pool.query(QUERY, VALUES);
+        return {results: response};
+    } catch (error) {
+        return {error: error.message};
+    }
+}
+
+export async function getUserProfileImageById(id) {
+
+    const QUERY = `
+    SELECT image_url FROM user
+    WHERE user_id = ?
+    `;
+
+    const VALUES = [id];
+
+    try {
+        const [rows] = await pool.query(QUERY, VALUES);
+        return {results: rows};
+    }
+    catch (error) {
+        return {error: error.message};
+    }
+}
+
+export async function updateUserProfileImageById(id, image_url) {
+
+    const QUERY = `
+    UPDATE user SET image_url = ? 
+    WHERE user_id = ?
+    `;
+
+    const VALUES = [image_url, id];
+
+    try {
+        const response = await pool.query(QUERY, VALUES);
+        return {results: response};
+    }
+    catch (error) {
         return {error: error.message};
     }
 }

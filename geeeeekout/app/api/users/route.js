@@ -27,7 +27,6 @@ export async function POST(req) {
 
     const body = await req.json();
 
-
     const { username, password } = body;
 
     const data = await createUser(username, password);
