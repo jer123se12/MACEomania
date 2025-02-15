@@ -28,6 +28,9 @@ export default function createIt({params}) {
     let submit = () => {
         console.log(src)
 
+        fetch('/api/community/' + community).then((res) => res.json()).then((data) => {
+            let community_id = data[0].community_id;
+
         fetch('/api/postit', {
              method: 'POST',
              headers: {
@@ -35,19 +38,30 @@ export default function createIt({params}) {
              },
              body: JSON.stringify({
                  creator_id: 1,
-                 community_id: 1,
+                 community_id: community_id,
                  html_url: "",
                  css_url: "",
-                    js_url: "",
-                    size_width: width,
-                    size_height: height,
-                    position_x: x,
-                    position_y: y
+                 js_url: "",
+                 position_x: x,
+                 position_y: y,
+                 size_width: width,
+                 size_height: height
 
              }),
          }).then((res) => res.text()).then((data) => {
-             console.log(data);
-         });
+            fetch('/api/postit/'+data+'/files/html',{
+                method:"PUT",
+                headers:{
+                    'Content-Type': 'application/json',
+                },
+                body:JSON.stringify({
+                    data:src
+                })
+            }).then((res)=>res.text()).then((data)=>{
+                console.log(data)
+                toast({title:"PostIt Created",description:"PostIt Created"})
+            });
+        });})
     }
     function changex(e){
         if (e.target.value<1024 && e.target.value>0){
