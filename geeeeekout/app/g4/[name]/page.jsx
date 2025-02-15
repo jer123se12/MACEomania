@@ -9,10 +9,14 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import SortBy from "@/components/SortBy";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import ThreadRow from '@/components/ui/threadRow';
-import Comboard from "../../../components/comboard";
-import SideBar from "../../../components/sideBar";
+import Comboard from "@/components/comboard";
+import SideBar from "@/components/sideBar";
+import NavMenu from "@/components/nav-menu";
+import { motion, useScroll, useTransform } from "motion/react"
+import { ChevronDown } from 'lucide-react';
+
 
 export default function subcomm({params}) {
     const [threads, setThreads] = useState([]);
@@ -21,6 +25,16 @@ export default function subcomm({params}) {
     const [boards,setBoard]=useState([]);
     const [info, setInfo] = useState({});
     const [community, setCommunity] = useState("");
+
+    const ref = useRef(null)
+    const { scrollYProgress } = useScroll({
+        target: ref,
+        offset: ["end end", "start start"],
+    })
+
+    const chevState = useTransform(scrollYProgress, [0, 0.2, 0.3, 1], [1, 1, 0, 0])
+    const descState = useTransform(scrollYProgress, [0, 0.1, 0.2, 1], [0, 0, 1, 1])
+
     useEffect(() => {
         params.then((params) => {
             setCommunity(params.name);
@@ -43,6 +57,10 @@ export default function subcomm({params}) {
     }, [community]);
 
     return <>
+        <motion.div className="w-full absolute flex justify-center mt-[90vh]" ref={ref} style={{opacity: chevState}}>
+            <ChevronDown size={50}/>
+        </motion.div>
+        <NavMenu></NavMenu>
         <div className="flex flex-col items-center gap-4 p-4">
             {/* Iframe Placeholder */}
             
@@ -51,13 +69,15 @@ export default function subcomm({params}) {
                 <SideBar boards={boards} hoverCallback={setHover}></SideBar>
                 </div>
             {/* Description */}
-            <Card className="w-full max-w-[1024] h-40 flex items-center justify-left text-5xl">
+            <motion.div className={"w-full max-w-[1024]"} style={{opacity: descState}}>
+                <Card className="w-full max-w-[1024] h-40 flex items-center justify-left text-5xl">
                 <CardHeader>
                     <CardTitle>{community}</CardTitle>
                     <CardDescription>{info.description}</CardDescription>
                 </CardHeader>
                 <CardContent></CardContent>
             </Card>
+            </motion.div>
 
 
             {/* Tags and Search */}
