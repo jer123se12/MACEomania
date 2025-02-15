@@ -42,7 +42,7 @@ export default function landing() {
     console.log(password)
     console.log(username)
   }
-  const signup= () => {
+  const signup = () => {
     setloginO(false)
     setsignupO(true)
   }
@@ -52,10 +52,10 @@ export default function landing() {
         <NavigationMenuList>
           <Dialog open={loginO} onOpenChange={setloginO}>
             <DialogTrigger>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Login
+              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                Login
               </NavigationMenuLink>
-              </DialogTrigger>
+            </DialogTrigger>
             <DialogContent>
               <DialogHeader>
                 <DialogTitle>Log in</DialogTitle>
@@ -63,31 +63,32 @@ export default function landing() {
                   Login or Sign up
                 </DialogDescription>
               </DialogHeader>
-                  <div className="grid w-full max-w-sm items-center gap-1.5">
-                    <Label htmlFor="username">Username</Label>
-                    <Input id="username" placeholder="1335geek" 
-                    onChange={(e) => setUsername(e.target.value)}
-                    />
-                  </div>
-                  <div className="grid w-full max-w-sm items-center gap-1.5">
-                    <Label htmlFor="password">Password</Label>
-                    <Input id="password" type="password" placeholder="password" 
-                    onChange={(e) => setPassword(e.target.value)}/>
-                  </div>
-                  <Button type="submit" onClick={click}>Submit</Button>
-                  {isWrong && <div className="text-red-500">Wrong username or password</div>}
-                  <div className="text-center">
-                  or<br/>
-                  <div onClick={signup} className="text-stone-500 hover:cursor-pointer max-w-content">
-                  <u>Sign Up</u>
+              <div className="grid w-full max-w-sm items-center gap-1.5">
+                <Label htmlFor="username">Username</Label>
+                <Input id="username" placeholder="Geeker43"
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+              </div>
+              <div className="grid w-full max-w-sm items-center gap-1.5">
+                <Label htmlFor="password">Password</Label>
+                <Input id="password" type="password" placeholder="Password"
+                  onChange={(e) => setPassword(e.target.value)} />
+              </div>
+              <Button type="submit" onClick={click}>Submit</Button>
+              {isWrong && <div className="text-red-500">Wrong username or password</div>}
+              <div className="text-center -mt-3">
+                or<br />
+                <div onClick={signup} className="text-stone-500 hover:cursor-pointer max-w-content">
+                  <u className="text-[14px]">Sign Up</u>
                 </div>
               </div>
-                
+
             </DialogContent>
           </Dialog>
-
         </NavigationMenuList>
       </NavigationMenu>
+
+      
 
       <Dialog open={singupO} onOpenChange={setsignupO}>
         <DialogContent>
@@ -99,24 +100,24 @@ export default function landing() {
           </DialogHeader>
           <div className="grid w-full max-w-sm items-center gap-1.5">
             <Label htmlFor="username">Username</Label>
-            <Input id="username" placeholder="1335geek"
+            <Input id="username" placeholder="Geeker43"
               onChange={(e) => setUsername(e.target.value)}
             />
           </div>
           <div className="grid w-full max-w-sm items-center gap-1.5">
             <Label htmlFor="password">Password</Label>
-            <Input id="password" type="password" placeholder="password"
+            <Input id="password" type="password" placeholder="Password"
               onChange={(e) => setPassword(e.target.value)} />
           </div>
           <div className="grid w-full max-w-sm items-center gap-1.5">
             <Label htmlFor="password">Confirm Password</Label>
-            <Input type="password" placeholder="password"
+            <Input type="password" placeholder="Password"
               onChange={(e) => setcfmPassword(e.target.value)} />
-                  {isDifferentPassword && <div className="text-red-500">Passwords do not match</div>}
+            {isDifferentPassword && <div className="text-red-500">Passwords do not match</div>}
           </div>
           <Button type="submit" onClick={click}>Submit</Button>
         </DialogContent>
-          </Dialog> 
+      </Dialog>
 
     </>
   );
