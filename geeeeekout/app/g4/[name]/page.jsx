@@ -47,7 +47,7 @@ export default function subcomm({params}) {
             {/* Iframe Placeholder */}
             
             <Comboard boards={boards} hover={hover}></Comboard>
-            <div className="absolute right-0 top-0 h-full">
+            <div className="absolute right-0 top-0 h-full overflow-hidden">
                 <SideBar boards={boards} hoverCallback={setHover}></SideBar>
                 </div>
             {/* Description */}
