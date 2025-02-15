@@ -9,23 +9,51 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 import SortBy from "@/components/SortBy";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ThreadRow from '@/components/ui/threadRow';
+import Comboard from "../../../components/comboard";
+import SideBar from "../../../components/sideBar";
 
-export default function subcomm() {
-    const [threads, setThreads] = useState(Array.from({ length: 10 }, (_, i) => i + 1));
+export default function subcomm({params}) {
+    const [threads, setThreads] = useState([]);
+    const [postits, setPostits] = useState([]);
+    const [hover,setHover]=useState(-1);
+    const [boards,setBoard]=useState([]);
+    const [info, setInfo] = useState({});
+    const [community, setCommunity] = useState("");
+    useEffect(() => {
+        params.then((params) => {
+            setCommunity(params.name);
+        });
+    }, []);
+    useEffect(() => {
+        if(community==="") return;
+        console.log('/api/community/'+community+'/threads')
+        fetch('/api/community/'+community+'/threads').then((res) => res.json()).then((data) => {
+            setThreads(data);
+        });
+        fetch('/api/community/'+community+'/postits').then((res) => res.json()).then((data) => {
+            console.log(data);
+            setPostits(data);
+        });
+        fetch('/api/community/'+community).then((res) => res.json()).then((data) => {
+            console.log(data);
+            setInfo(data);
+        });
+    }, [community]);
 
     return <>
         <div className="flex flex-col items-center gap-4 p-4">
             {/* Iframe Placeholder */}
-            <Card className="w-[1024] h-[768] bg-black flex items-center justify-center text-white">
-                iframe
-            </Card>
-
+            
+            <Comboard boards={boards} hover={hover}></Comboard>
+            <div className="absolute right-0 top-0 h-full">
+                <SideBar boards={boards} hoverCallback={setHover}></SideBar>
+                </div>
             {/* Description */}
             <Card className="w-full max-w-[1024] h-40 flex items-center justify-left text-5xl">
                 <CardHeader>
-                    <CardTitle>Description:</CardTitle>
+                    <CardTitle>{community}</CardTitle>
                     <CardDescription>Deploy your new project in one-click.</CardDescription>
                 </CardHeader>
                 <CardContent></CardContent>
@@ -46,11 +74,11 @@ export default function subcomm() {
             <div className="w-full max-w-[1024] flex flex-col gap-8">
 
 
-            {threads.map((value, index) => {
+            {threads.map((value ) =>{
                 // return <Card className="w-full h-48 bg-red-500 flex items-center justify-center text-white" key={index}>
                 //     {index}
                 // </Card>
-                return <ThreadRow key={value}></ThreadRow>
+                return <ThreadRow key={value.thread_id} thread_name={value.title} thread_content={value.content}></ThreadRow>
             })}
             </div>
 

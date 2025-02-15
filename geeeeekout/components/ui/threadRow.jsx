@@ -8,13 +8,13 @@ import {
     CardTitle,
 } from "@/components/ui/card"
 
-function ThreadRow({ key, thread_name = null, thread_content = null }) {
+function ThreadRow({ thread_name = null, thread_content = null , thread_id}) {
     return (
         <>
-            <Card key={key} className="w-full h-48 flex">
+            <Card className="w-full h-48 flex" >
                 <CardHeader>
-                    <CardTitle>thread_name</CardTitle>
-                    <CardDescription >thread_content </CardDescription>
+                    <CardTitle>{thread_name}</CardTitle>
+                    <CardDescription >{thread_content} </CardDescription>
                 </CardHeader>
                 {/* <CardContent>
                     <p>Card Content</p>

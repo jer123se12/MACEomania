@@ -1,7 +1,6 @@
 "use server";
 
 import pool from '@/lib/db';
-import async from './../../app/components/api/getUsers';
 
 export async function getAllCommunities() {
 
