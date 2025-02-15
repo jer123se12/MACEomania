@@ -22,11 +22,13 @@ export async function UploadFile(form, bucket) {
         if (file.size < 1) throw new Error('File is empty');
 
         const buffer = await file.arrayBuffer();
+
         const storage = new Storage({});
         
         const TIMESTAMP = new Date().getTime();
         const SALT = Math.random().toString(36).substring(2, 15);
-        const fileName = `${TIMESTAMP}-${SALT}`;
+        const EXT = file.name.split('.')[1];
+        const fileName = `${TIMESTAMP}-${SALT}.${EXT}`;
 
         await storage.bucket(BucketList[bucket]).file(fileName).save(Buffer.from(buffer));
 

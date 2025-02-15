@@ -4,57 +4,64 @@ import { useEffect, useState } from 'react';
 
 export default function Page() {
 
-    const [username, setUsername] = useState('');
-    const [image, setImage] = useState('');
+    const [javascript, setJavascript] = useState('');
+    const [css, setCss] = useState('');
+    const [html, setHtml] = useState('');
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const formData = new FormData();
-        
-        const fileData = e.target.file.files[0];
 
-        formData.append('file', fileData);
+        const body = {
+            data: javascript
+        }
 
-        const response = await fetch('/api/users/1/profile-image', {
+        const response = await fetch('/api/postit/1/files/javascript', {
             method: 'PUT',
-            body: formData
+            body: JSON.stringify(body)
         });
 
-        const data = await response.json();
-        
-        if (data[0].changedRows > 0) {
-            alert('Profile image updated!');
-        }
-    }
+        console.log(response);
 
-    useEffect(() => {
-        const fetchImage = async () => {
-            const response = await fetch('/api/users/1/profile-image');
-            const data = await response.json();
-            
-            const URL = data[0].image_url;
-            console.log(URL);
-            setImage(URL);
+        const body2 = {
+            data: css
         }
-        const fetchUser = async () => {
-            const response = await fetch('/api/users/1');
-            const data = await response.json();
-            console.log(data);
-            setUsername(data[0].username);
+
+        const response2 = await fetch('/api/postit/1/files/css', {
+            method: 'PUT',
+            body: JSON.stringify(body2)
+        });
+
+        console.log(response2);
+
+        const body3 = {
+            data: html
         }
-        fetchImage();
-        fetchUser();
-    }, []);
+
+        const response3 = await fetch('/api/postit/1/files/html', {
+            method: 'PUT',
+            body: JSON.stringify(body3)
+        });
+
+        console.log(response3);
+    }
 
     return (
         <>
-            <h1>Update Profile Page</h1>
-            <p>Username: {username}</p>
-            {image && <img src={image} alt="profile image" />}
-            
+            <h1>Type JS</h1>
             <form onSubmit={handleSubmit}>
-                <input type="file" name="file" />
-                <button type="submit">Update Profile Image</button>
+                <textarea
+                    value={javascript}
+                    onChange={(e) => setJavascript(e.target.value)}
+                />
+                <textarea
+                    value={css}
+                    onChange={(e) => setCss(e.target.value)}
+                />
+                <textarea
+                    value={html}
+                    onChange={(e) => setHtml(e.target.value)}
+                />
+                <button type="submit">Submit</button>
             </form>
         </>
     )

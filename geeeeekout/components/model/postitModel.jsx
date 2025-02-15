@@ -1,6 +1,7 @@
 "use server";
 
 import pool from '@/lib/db';
+import { effectCar } from './../../node_modules/react-remove-scroll/dist/es2015/medium';
 
 export async function getAllPostits() {
 
@@ -90,6 +91,108 @@ export async function getPostitByCommunityName(name) {
     try {
         const [rows] = await pool.query(QUERY, VALUES);
         return {results: rows};
+    }
+    catch (error) {
+        return {error: error.message};
+    }
+}
+
+export async function getPostitJSById(id) {
+
+    const QUERY = `
+    SELECT js_url FROM postit WHERE postit_id = ?;
+    `;
+
+    const VALUES = [id];
+
+    try {
+        const [rows] = await pool.query(QUERY, VALUES);
+        return {results: rows};
+    }
+    catch (error) {
+        return {error: error.message};
+    }
+}
+
+export async function updatePostitJSById(id, js_url) {
+
+    const QUERY = `
+    UPDATE postit SET js_url = ? WHERE postit_id = ?;
+    `;
+
+    const VALUES = [js_url, id];
+
+    try {
+        await pool.query(QUERY, VALUES);
+        return {results: "Postit JS updated"};
+    }
+    catch (error) {
+        return {error: error.message};
+    }
+}
+
+export async function getPostitCSSById(id) {
+
+    const QUERY = `
+    SELECT css_url FROM postit WHERE postit_id = ?;
+    `;
+
+    const VALUES = [id];
+
+    try {
+        const [rows] = await pool.query(QUERY, VALUES);
+        return {results: rows};
+    }
+    catch (error) {
+        return {error: error.message};
+    }
+}
+
+export async function updatePostitCSSById(id, css_url) {
+    
+    const QUERY = `
+    UPDATE postit SET css_url = ? WHERE postit_id = ?;
+    `;
+
+    const VALUES = [css_url, id];
+
+    try {
+        await pool.query(QUERY, VALUES);
+        return {results: "Postit CSS updated"};
+    }
+    catch (error) {
+        return {error: error.message};
+    }
+}
+
+export async function getPostitHTMLById(id) {
+
+    const QUERY = `
+    SELECT html_url FROM postit WHERE postit_id = ?;
+    `;
+
+    const VALUES = [id];
+
+    try {
+        const [rows] = await pool.query(QUERY, VALUES);
+        return {results: rows};
+    }
+    catch (error) {
+        return {error: error.message};
+    }
+}
+
+export async function updatePostitHTMLById(id, html_url) {
+    
+    const QUERY = `
+    UPDATE postit SET html_url = ? WHERE postit_id = ?;
+    `;
+
+    const VALUES = [html_url, id];
+
+    try {
+        await pool.query(QUERY, VALUES);
+        return {results: "Postit HTML updated"};
     }
     catch (error) {
         return {error: error.message};
