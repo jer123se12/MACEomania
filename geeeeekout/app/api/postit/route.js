@@ -1,10 +1,10 @@
 "use server";
 
-import { createMessage, getAllMessages} from '@/components/model/messageModel';
+import { createPostit, getAllPostits } from '@/components/model/postitModel';
 
 export async function GET() {
-    
-    const data = await getAllMessages();
+
+    const data = await getAllPostits();
 
     if (data.error) {
         return new Response(JSON.stringify(data), {
@@ -24,11 +24,12 @@ export async function GET() {
 }
 
 export async function POST(req) {
-    const body = await req.json();
-    
-    const { content, creator_id, thread_id } = body;
 
-    const data = await createMessage(content, creator_id, thread_id);
+    const body = await req.json();
+
+    const { creator_id, community_id, html_url, css_url, js_url, position_x, position_y, size_width, size_height } = body;
+
+    const data = await createPostit(creator_id, community_id, html_url, css_url, js_url, position_x, position_y, size_width, size_height);
 
     if (data.error) {
         return new Response(JSON.stringify(data), {
