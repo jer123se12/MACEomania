@@ -70,7 +70,7 @@ export default function subcomm({ params }) {
             
             <ComboardWrapper boards={postits} hover={hover}></ComboardWrapper>
             <div className="absolute right-0 top-0 h-full overflow-hidden">
-                <SideBar boards={boards} hoverCallback={setHover}></SideBar>
+                <SideBar boards={postits} hoverCallback={setHover}></SideBar>
             </div>
             {/* Description */}
             <motion.div className={"w-full max-w-[1024]"} style={{ opacity: descState }}>
