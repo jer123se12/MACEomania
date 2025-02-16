@@ -66,9 +66,7 @@ export default function subcomm({ params }) {
         <motion.div className="w-full absolute flex justify-center mt-[90vh] z-10" ref={ref} style={{ opacity: chevState }}>
             <ChevronDown size={50} />
         </motion.div>
-        <NavMenu></NavMenu>
-
-
+        <NavMenu community={community}></NavMenu>
         <div className="flex flex-col items-center gap-4 p-4">
             {/* Iframe Placeholder */}
             
