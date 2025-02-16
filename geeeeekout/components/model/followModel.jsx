@@ -57,10 +57,15 @@ export async function getFollowById(id) {
 export async function getFollowsByUserId(user_id) {
 
     const QUERY = `
-    SELECT f.follow_id, u.username, c.name, c.image_url FROM follow AS f
+    SELECT f.follow_id, u.username, c.name, c.description, c.image_url, fc.follower_count FROM follow AS f
     INNER JOIN user AS u ON f.user_id = u.user_id
     INNER JOIN community AS c ON f.community_id = c.community_id
-    WHERE f.user_id = ?
+    LEFT JOIN (
+		SELECT community_id, COUNT(*) as follower_count
+        FROM follow
+        GROUP BY community_id
+	) AS fc on c.community_id = fc.community_id
+    WHERE f.user_id = 1
     `;
 
     const VALUES = [user_id];
