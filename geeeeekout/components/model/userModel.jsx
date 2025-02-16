@@ -67,6 +67,23 @@ export async function getUserByUsername(username) {
     }
 }
 
+export async function getUserByUsernamePassword(username, password) {
+
+    const QUERY = `
+    SELECT user_id, username, image_url FROM user
+    WHERE username = ? AND password = ?
+    `;
+
+    const VALUES = [username, password];
+
+    try {
+        const [rows] = await pool.query(QUERY, VALUES);
+        return {results: rows};
+    } catch (error) {
+        return {error: error.message};
+    }
+}
+
 export async function updateUserById(id, username, password, image_url) {
 
     const QUERY = `

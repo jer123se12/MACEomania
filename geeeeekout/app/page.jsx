@@ -1,6 +1,8 @@
 'use client'
 import { Button } from "@/components/ui/button"
 
+import { useToast } from "@/hooks/use-toast"
+
 import * as React from "react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
@@ -30,6 +32,8 @@ import { Input } from "@/components/ui/input"
 
 
 export default function landing() {
+  const {toast} = useToast()
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [cfmPassword, setcfmPassword] = useState('');
@@ -37,10 +41,39 @@ export default function landing() {
   const [singupO, setsignupO] = useState(false);
   const [isWrong, setisWrong] = useState(false);
   const [isDifferentPassword, setDiferentPassword] = useState(false);
+
+  const handleSubmissionLogin = async () => {
+
+    const data = {
+      username: username,
+      userPw: password
+    }
+
+    const response = await fetch('/api/users/auth', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data),
+    });
+  
+    if (response.status === 401) {
+      toast({
+        title:"Wrong username or password",
+        description:"Please try again",
+        variant: "destructive",
+      })
+    }
+
+  }
+
   const click = () => {
-    console.log("clicked")
-    console.log(password)
-    console.log(username)
+    
+    if (loginO) {
+      handleSubmissionLogin()
+    }
+
+
   }
   const signup = () => {
     setloginO(false)
