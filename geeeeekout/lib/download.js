@@ -19,9 +19,6 @@ export async function DownloadFile(url, bucket) {
 
         const storage = new Storage();
 
-        console.log(BucketList[bucket]);
-        console.log(FILENAME);
-
         const stream = storage.bucket(BucketList[bucket]).file(FILENAME).createReadStream();
 
         let data = '';

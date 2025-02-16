@@ -16,6 +16,7 @@ import SideBar from "@/components/sideBar";
 import NavMenu from "@/components/nav-menu";
 import { motion, useScroll, useTransform } from "motion/react"
 import { ChevronDown } from 'lucide-react';
+import ComboardWrapper from '@/components/comboardWrapper';
 
 
 
@@ -67,7 +68,7 @@ export default function subcomm({ params }) {
         <div className="flex flex-col items-center gap-4 p-4">
             {/* Iframe Placeholder */}
 
-            <Comboard boards={boards} hover={hover}></Comboard>
+            <ComboardWrapper boards={postits} hover={hover}></ComboardWrapper>
             <div className="absolute right-0 top-0 h-full overflow-hidden">
                 <SideBar boards={boards} hoverCallback={setHover}></SideBar>
             </div>

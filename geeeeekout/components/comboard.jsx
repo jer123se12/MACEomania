@@ -17,7 +17,7 @@ export default function Comboard({boards, hover}) {
             ></iframe>;
     });
     return <>
-        <div className={"w-[1024px] grow-0 shrink-0 h-[768px] bg-gray-100 bg-stone-100 overflow-hidden"}>
+        <div className={"w-[1024px] grow-0 shrink-0 h-[768px] bg-gray-100 bg-stone-100 overflow-hidden relative"}>
             {renderedBoards}
         </div>
     </>

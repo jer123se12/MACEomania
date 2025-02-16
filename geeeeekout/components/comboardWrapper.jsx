@@ -24,8 +24,6 @@ export default function ComboardWrapper({boards, hover}) {
             }
         }));
 
-        console.log(newBoards);
-
         return newBoards;
     }
 

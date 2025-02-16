@@ -21,6 +21,7 @@ import { useState } from 'react'
 
 function ThreadRow({ thread_name = null, thread_content = null, thread_id }) {
     const [messages, setMessages] = useState([]);
+    const [refresh, setRefresh] = useState(false);
 
     useEffect(() => {
         if (messages === "") return;
@@ -28,11 +29,12 @@ function ThreadRow({ thread_name = null, thread_content = null, thread_id }) {
         fetch('/api/thread/' + thread_id + '/messages').then((res) => res.json()).then((data) => {
             console.log(data)
             setMessages(data);
+            setRefresh(false);
         });
-    }, [thread_id]);
+    }, [thread_id, refresh]);
 
     return (
-        <>
+        <div className='cursor-pointer'>
             <Dialog>
                 <DialogTrigger asChild>
                     <Card className="w-full h-48 flex" >
@@ -43,12 +45,12 @@ function ThreadRow({ thread_name = null, thread_content = null, thread_id }) {
                     </Card>
 
                 </DialogTrigger>
-                <ThreadMessagesDialog thread_name={thread_name} thread_content={thread_content} messages={messages}>
+                <ThreadMessagesDialog thread_name={thread_name} thread_content={thread_content} messages={messages} thread_id={thread_id} setRefresh={setRefresh}>
 
                 </ThreadMessagesDialog>
             </Dialog>
 
-        </>
+        </div>
 
     )
 }
