@@ -27,7 +27,7 @@ function NavMenu({community}) {
                 <NavigationMenu>
                     <NavigationMenuList className="flex space-x-4">
                         <NavigationMenuItem>
-                            <NavigationMenuLink href={"/g4/"+community+"/createPostIt"} className="text-gray-700 hover:text-black">
+                            <NavigationMenuLink href={"/g4/"+community+"/createPostIt"} className="text-gray-700 hover:text-black mx-5">
                                 Add PostIt   
                             </NavigationMenuLink>
                             <NavigationMenuLink href="/home" className="text-gray-700 hover:text-black">
