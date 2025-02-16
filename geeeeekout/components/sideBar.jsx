@@ -34,17 +34,17 @@ export default function SideBar({boards, hoverCallback}) {
         >
             <div onClick={()=>Clicked(b.postit_id)} className="flex justify-between items-center w-full">
                 <p>{b.username}</p>
-                <Image src={"/arrowUp.png"} width={10} height={10}/>
+                <Image alt="arrowUp" src={"/arrowUp.png"} width={10} height={10}/>
             </div>
         </SidebarMenuButton>
     })
 
   return (
-    <SidebarProvider>
-      <Sidebar collapsable="none" side="right"varient="inset">
-          <SidebarContent>
-              <SidebarGroup>
-                <SidebarMenu>
+    <SidebarProvider className="!h-[768px] !min-h-0 rounded-md">
+      <Sidebar collapsable="none" side="right"varient="inset" className="!absolute mt-25 top-50 !max-h-[768px] rounded-md">
+          <SidebarContent className="!relative rounded-md">
+              <SidebarGroup className="!relative">
+                <SidebarMenu className="!relative">
                     {buttons}
                 </SidebarMenu>
               </SidebarGroup>

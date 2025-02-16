@@ -16,7 +16,7 @@ import LogoMed from '@/components/ui/logo_med'
 
 function NavMenu() {
     return (
-        <header className="w-full bg-white shadow-md sticky top-0 z-50">
+        <header className="w-full bg-white shadow-md sticky top-0 z-50 max-w-full">
             <div className="w-full flex items-center justify-between py-4 px-8">
                 {/* Logo */}
                 <a href="/">
