@@ -1,10 +1,15 @@
 'use server';
 
-import {getAllFollows, createFollow} from '@/components/model/followModel';
+import { getFollowByUserIdCommunityId, deleteFollowByUserIdCommunityId } from '@/components/model/followModel';
 
-export async function GET() {
+export async function GET(req, { params }) {
+        
+    const { id, community_id } = await params;
 
-    const data = await getAllFollows();
+    console.log("id", id);
+    console.log("community_id", community_id);
+
+    const data = await getFollowByUserIdCommunityId(id, community_id);
 
     if (data.error) {
         return new Response(JSON.stringify(data), {
@@ -21,14 +26,13 @@ export async function GET() {
             'Content-Type': 'application/json'
         }
     });
+
 }
 
-export async function POST(req) {
-    const body = await req.json();
-    
-    const { user_id, community_id } = body;
+export async function DELETE(req, { params }) {
+    const { id, community_id } = await params;
 
-    const data = await createFollow(user_id, community_id);
+    const data = await deleteFollowByUserIdCommunityId(id, community_id);
 
     if (data.error) {
         return new Response(JSON.stringify(data), {
@@ -40,7 +44,7 @@ export async function POST(req) {
     }
 
     return new Response(JSON.stringify(data.results), {
-        status: 201,
+        status: 200,
         headers: {
             'Content-Type': 'application/json'
         }

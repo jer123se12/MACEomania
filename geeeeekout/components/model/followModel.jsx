@@ -96,3 +96,38 @@ export async function getFollowsByCommunityId(community_id) {
         return {error: error.message};
     }
 }
+
+export async function getFollowByUserIdCommunityId(user_id, community_id) {
+
+    const QUERY = `
+    SELECT f.follow_id, u.username, c.name, c.image_url FROM follow AS f
+    INNER JOIN user AS u ON f.user_id = u.user_id
+    INNER JOIN community AS c ON f.community_id = c.community_id
+    WHERE f.user_id = ? AND f.community_id = ?
+    `;
+
+    const VALUES = [user_id, community_id];
+
+    try {
+        const [rows] = await pool.query(QUERY, VALUES);
+        return {results: rows};
+    } catch (error) {
+        return {error: error.message};
+    }
+}
+
+export async function deleteFollowByUserIdCommunityId(user_id, community_id) {
+
+    const QUERY = `
+    DELETE FROM follow WHERE user_id = ? AND community_id = ?
+    `;
+
+    const VALUES = [user_id, community_id];
+
+    try {
+        const response = await pool.query(QUERY, VALUES);
+        return {results: response.affectedRows};
+    } catch (error) {
+        return {error: error.message};
+    }
+}

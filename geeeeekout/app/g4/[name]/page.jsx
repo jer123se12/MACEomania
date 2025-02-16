@@ -29,6 +29,7 @@ import { ChevronDown } from 'lucide-react';
 import { Button } from "@/components/ui/button"
   
 import ComboardWrapper from '@/components/comboardWrapper';
+import { is } from './../../../node_modules/sucrase/dist/esm/transformers/CJSImportTransformer';
 
 
 
@@ -42,6 +43,8 @@ export default function subcomm({ params }) {
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
+
+    const [isFollowed, setIsFollowed] = useState(false);
 
     const ref = useRef(null)
     const { scrollYProgress } = useScroll({
@@ -70,9 +73,14 @@ export default function subcomm({ params }) {
             setPostits(data);
         });
         fetch('/api/community/' + community).then((res) => res.json()).then((data) => {
-            console.log(data);
+            console.log("info",data);
             setInfo(data[0]);
+            const user_id = localStorage.getItem('user_id');
+            fetch('/api/follow/user/' + user_id + '/community/' + data[0].community_id).then((res) => res.json()).then((data) => {
+                setIsFollowed(data.length > 0);
         });
+        });
+        
     }, [community]);
 
     function handleNewThread() {
@@ -105,6 +113,41 @@ export default function subcomm({ params }) {
         });
     }
 
+    const handleFollow = () => {
+        
+        const user_id = localStorage.getItem('user_id');
+
+        if (isFollowed) {
+            fetch('/api/follow/user/' + user_id + '/community/' + info.community_id, {
+                method: 'DELETE',
+            }).then((res) => res.text()).then((data) => {
+                if (data.error) {
+                    console.log(data.error)
+                }
+                console.log(data)
+                setIsFollowed(false);
+            });
+        }
+        else {
+            fetch('/api/follow', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    user_id: user_id,
+                    community_id: info.community_id
+                }),
+            }).then((res) => res.text()).then((data) => {
+                if (data.error) {
+                    console.log(data.error)
+                }
+                console.log(data)
+                setIsFollowed(true);
+            });
+        }
+    }
+
     return <>
         <motion.div className="w-full absolute flex justify-center mt-[90vh] z-10" ref={ref} style={{ opacity: chevState }}>
             <ChevronDown size={50} />
@@ -124,7 +167,7 @@ export default function subcomm({ params }) {
                         <CardTitle>{`G4/${community}`}</CardTitle>
                         <CardDescription>{info.description}</CardDescription>
                     </CardHeader>
-                    <CardContent>
+                    <CardContent className="flex gap-4">
                         <Dialog>
                             <DialogTrigger asChild>
                                 <Button className="black text-white">
@@ -148,6 +191,9 @@ export default function subcomm({ params }) {
                                 </DialogFooter>
                             </DialogContent>
                         </Dialog>
+                        <Button className={isFollowed ? "bg-black text-white" : "bg-white text-black border-2 border-black"} onClick={handleFollow}>
+                            {isFollowed ? "Unfollow" : "Follow"}
+                        </Button>
                     </CardContent>
                 </Card>
             </motion.div>
