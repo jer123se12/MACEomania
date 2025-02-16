@@ -30,7 +30,7 @@ export async function POST(req) {
             });
         }
 
-        return new Response(JSON.stringify({ results: "Success"}), {
+        return new Response(JSON.stringify(data.results), {
             status: 200,
             headers: {
                 'Content-Type': 'application/json'

@@ -9,7 +9,7 @@ export default function Page() {
 
     useEffect(() => {
         const getPostits = async () => {
-            const response = await fetch('/api/community/IAMCOOL/postits');
+            const response = await fetch('/api/community/MaCE/postits');
             const data = await response.json()
             setPostits(data);
         }

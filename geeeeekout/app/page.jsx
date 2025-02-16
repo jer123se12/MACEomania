@@ -29,6 +29,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
+import { const } from './../node_modules/signal-exit/dist/mjs/index';
 
 
 export default function landing() {
@@ -67,17 +68,53 @@ export default function landing() {
 
     if (response.status === 200) {
       const data = await response.json()
-      localStorage.setItem('user_id', data.user_id)
+      localStorage.setItem('user_id', data[0].user_id)
       window.location.href = '/home'
     }
   }
 
+  const handleSubmissionSignup = async () => {
+    if (password !== cfmPassword) {
+      setDiferentPassword(true)
+      return
+    }
+    const data = {
+      username: username,
+      password: password
+    }
+
+    const response = await fetch('/api/users', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data),
+    });
+  
+    if (response.status === 500) {
+      toast({
+        title:"Username already exists",
+        description:"Please try again",
+        variant: "destructive",
+      })
+    }
+
+    if (response.status === 200) {
+      const data = await response.json()
+      localStorage.setItem('user_id', data)
+      window.location.href = '/home'
+    }
+  }
+  
   const click = () => {
     
     if (loginO) {
       handleSubmissionLogin()
     }
 
+    if (singupO) {
+      handleSubmissionSignup()
+    }
 
   }
   const signup = () => {
