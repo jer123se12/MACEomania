@@ -1,10 +1,10 @@
 import React from 'react'
 import NavMenu from '../../components/nav-menu'
-import ThreadDialog from '../../components/thread-dialog'
+import ThreadMessagesDialog from '../../components/thread-messages-dialog'
 
 function TestPage() {
   return (
-    <ThreadDialog />
+    <ThreadMessagesDialog />
   )
 }
 

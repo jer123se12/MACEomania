@@ -18,6 +18,7 @@ import { motion, useScroll, useTransform } from "motion/react"
 import { ChevronDown } from 'lucide-react';
 
 
+
 export default function subcomm({ params }) {
     const [threads, setThreads] = useState([]);
     const [postits, setPostits] = useState([]);
@@ -40,10 +41,12 @@ export default function subcomm({ params }) {
             setCommunity(params.name);
         });
     }, []);
+
     useEffect(() => {
         if (community === "") return;
         console.log('/api/community/' + community + '/threads')
         fetch('/api/community/' + community + '/threads').then((res) => res.json()).then((data) => {
+            console.log(data);
             setThreads(data);
         });
         fetch('/api/community/' + community + '/postits').then((res) => res.json()).then((data) => {
@@ -92,13 +95,11 @@ export default function subcomm({ params }) {
             {/* Div Section */}
 
             <div className="w-full max-w-[1024] flex flex-col gap-8">
-
-
                 {threads.map((value) => {
                     // return <Card className="w-full h-48 bg-red-500 flex items-center justify-center text-white" key={index}>
                     //     {index}
                     // </Card>
-                    return <ThreadRow key={value.thread_id} thread_name={value.title} thread_content={value.content}></ThreadRow>
+                    return <ThreadRow key={value.thread_id} thread_name={value.title} thread_content={value.content} thread_id={value.thread_id}></ThreadRow>
                 })}
             </div>
 
