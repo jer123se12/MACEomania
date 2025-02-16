@@ -8,6 +8,16 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogClose,
+    DialogTrigger,
+} from "@/components/ui/dialog"
 import SortBy from "@/components/SortBy";
 import { useEffect, useState, useRef } from "react";
 import ThreadRow from '@/components/ui/threadRow';
@@ -29,6 +39,9 @@ export default function subcomm({ params }) {
     const [boards, setBoard] = useState([]);
     const [info, setInfo] = useState({});
     const [community, setCommunity] = useState("");
+
+    const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
 
     const ref = useRef(null)
     const { scrollYProgress } = useScroll({
@@ -62,6 +75,36 @@ export default function subcomm({ params }) {
         });
     }, [community]);
 
+    function handleNewThread() {
+        const user_id = localStorage.getItem('user_id');
+
+        fetch('/api/thread', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                title: title,
+                content: description,
+                creator_id: user_id,
+                community_id: info.community_id
+            }),
+        }).then((res) => res.text()).then((data) => {
+            if (data.error) {
+                console.log(data.error)
+            }
+            console.log(data)
+            setThreads([{
+                title: title,
+                content: description,
+                creator_id: user_id,
+                community_id: info.community_id
+            }, ...threads ]);
+            setTitle("");
+            setDescription("");
+        });
+    }
+
     return <>
         <motion.div className="w-full absolute flex justify-center mt-[90vh] z-10" ref={ref} style={{ opacity: chevState }}>
             <ChevronDown size={50} />
@@ -84,9 +127,29 @@ export default function subcomm({ params }) {
                         <CardDescription>{info.description}</CardDescription>
                     </CardHeader>
                     <CardContent>
-                        <Button>
-
-                        </Button>
+                        <Dialog>
+                            <DialogTrigger asChild>
+                                <Button className="black text-white">
+                                    +
+                                </Button>
+                            </DialogTrigger>
+                            <DialogContent className="sm:max-w-[1024px] sm:max-h-[80vh]">
+                                <DialogHeader>
+                                    <DialogTitle className="text-2xl">
+                                        Create a new thread
+                                    </DialogTitle>
+                                </DialogHeader>
+                                <DialogFooter>
+                                    <Input placeholder="Thread title" onChange={(e) => setTitle(e.target.value)}></Input>
+                                    <Input placeholder="Thread description" onChange={(e) => setDescription(e.target.value)}></Input>
+                                    <DialogClose asChild>
+                                        <Button onClick={handleNewThread}>
+                                            Create
+                                        </Button>
+                                    </DialogClose>
+                                </DialogFooter>
+                            </DialogContent>
+                        </Dialog>
                     </CardContent>
                 </Card>
             </motion.div>
