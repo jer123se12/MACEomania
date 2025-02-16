@@ -68,12 +68,12 @@ export default function subcomm({ params }) {
         </motion.div>
         <NavMenu></NavMenu>
 
-        
+
         <div className="flex flex-col items-center gap-4 p-4">
             {/* Iframe Placeholder */}
             
             <ComboardWrapper boards={postits} hover={hover}></ComboardWrapper>
-            <div className="absolute right-0 top-0 h-full overflow-hidden">
+            <div className="absolute right-0 top-50 h-[768] overflow-hidden">
                 <SideBar boards={postits} hoverCallback={setHover}></SideBar>
             </div>
             {/* Description */}
