@@ -60,6 +60,7 @@ export default function createIt({params}) {
             }).then((res)=>res.text()).then((data)=>{
                 console.log(data)
                 toast({title:"PostIt Created",description:"PostIt Created"})
+                window.location.href = '/g4/' + community
                 localStorage.setItem("screenshot", true)
             });
         });})
