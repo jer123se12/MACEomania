@@ -1,7 +1,6 @@
 "use server";
 
 import pool from '@/lib/db';
-import { effectCar } from './../../node_modules/react-remove-scroll/dist/es2015/medium';
 
 export async function getAllPostits() {
 

@@ -13,12 +13,12 @@ import {
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
-  } from "@/components/ui/sidebar"
-   
+} from "@/components/ui/sidebar"
+
 export default function SideBar({boards, hoverCallback}) {
     const {toast}=useToast()
     const Clicked = (id) => {
-        fetch('/api/postit/'+id+'/upvote', {
+        fetch('/api/postit/'+id+'/increment', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

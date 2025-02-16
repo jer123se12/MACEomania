@@ -1,10 +1,12 @@
 'use server';
 
-import {incrementPostitUpvotesById} from '@/model/postitModel';
+import {incrementPostitUpvotesById} from '@/components/model/postitModel';
 
-export async function PUT(req, { param }) {
+export async function PUT(req) {
 
-    const { id } = await param;
+    const { id } = req.query;
+
+    console.log("id", id);
 
     const response = await incrementPostitUpvotesById(id);
 

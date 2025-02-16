@@ -27,11 +27,7 @@ import NavMenu from "@/components/nav-menu";
 import { motion, useScroll, useTransform } from "motion/react"
 import { ChevronDown } from 'lucide-react';
 import { Button } from "@/components/ui/button"
-  
 import ComboardWrapper from '@/components/comboardWrapper';
-import { is } from './../../../node_modules/sucrase/dist/esm/transformers/CJSImportTransformer';
-
-
 
 export default function subcomm({ params }) {
     const [threads, setThreads] = useState([]);
