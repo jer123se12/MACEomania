@@ -6,6 +6,7 @@ export default function Comboard({ boards, hover }) {
     const [renderBoards, setRenderBoards] = useState([]);
 
     useEffect(() => {
+        console.log(boards);
         const newBoards = boards.map((b) => {
             const hoverStyle = hover === b.postit_id ? 'solid 5px red' : '';
             return (

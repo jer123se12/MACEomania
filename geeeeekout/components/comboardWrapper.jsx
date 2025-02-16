@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 
 import { DownloadFile } from '@/lib/download';
 
-export default function ComboardWrapper({boards, hover}) {
+export default function ComboardWrapper({boards, hover, insertedBoard=null}) {
 
     // get the html data
     async function getHTML(url) {
@@ -28,12 +28,21 @@ export default function ComboardWrapper({boards, hover}) {
     }
 
     const [renderedBoards, setRenderedBoards] = useState([]);
+    useEffect(() => {
+        if (insertedBoard) {
+            setRenderedBoards([insertedBoard])
+        }
+    }, []);   
 
     useEffect(() => {
         insertHTMLDataToBoards().then((newBoards) => {
+        if (insertedBoard) {
+            setRenderedBoards([...newBoards, insertedBoard]);
+        }else{
             setRenderedBoards(newBoards);
+        }
         });
-    }, [boards]);
+    }, [boards,insertedBoard]);
 
     return <>
         <Comboard boards={renderedBoards} hover={hover}/>

@@ -2,6 +2,7 @@
 import { useToast } from "@/hooks/use-toast"
 
 import AceEditor from "react-ace";
+import ComboardWrapper from "@/components/comboardWrapper";
 import { useEffect, useState, useRef } from "react";
 import {
     Card,
@@ -17,6 +18,8 @@ export default function createIt({params}) {
     const {toast}=useToast()
 
     const [community, setCommunity] = useState("");
+    const [iboard, setIboard] = useState(null);
+    const [postits, setPostits] = useState("");
     const [html, setHtml] = useState("");
     const [css, setcss] = useState("");
     const [js, setjs] = useState("");
@@ -103,6 +106,17 @@ export default function createIt({params}) {
         });
     },[])
     useEffect(() => {
+        if (community === "") return;
+        console.log('/api/community/' + community + '/threads')
+        fetch('/api/community/' + community + '/postits').then((res) => res.json()).then((data) => {
+            console.log(data);
+            setPostits(data);
+        });
+    }, [community]);
+    function render(){
+        setIboard({postit_id:-1,html : src, size_width:width,size_height:height,upvotes:100000,position_x:x,position_y:y})
+    }
+    useEffect(() => {
         setsrc( `
         <html>
         <head>
@@ -183,7 +197,8 @@ export default function createIt({params}) {
                     <Input type="number" placeholder="height"onChange={changeheight}/>
                     </div>
                     <p>Preview</p>
-                    <iframe srcDoc={src} className={"border-black border-2"} width={width+"px"} height={height+"px"}></iframe>
+                    <Button onClick={render}>render</Button>
+                    <ComboardWrapper boards={postits} insertedBoard={iboard} hover={-1}></ComboardWrapper>
                     <Button onClick={submit}>Submit</Button>
                 </CardContent>
             </Card>
