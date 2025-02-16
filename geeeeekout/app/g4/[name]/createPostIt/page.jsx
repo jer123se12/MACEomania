@@ -60,6 +60,7 @@ export default function createIt({params}) {
             }).then((res)=>res.text()).then((data)=>{
                 console.log(data)
                 toast({title:"PostIt Created",description:"PostIt Created"})
+                localStorage.setItem("screenshot", true)
             });
         });})
     }

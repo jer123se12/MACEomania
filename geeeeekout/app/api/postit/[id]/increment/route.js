@@ -2,7 +2,7 @@
 
 import {incrementPostitUpvotesById} from '@/model/postitModel';
 
-export async function incrementPostitUpvotes(req, { param }) {
+export async function PUT(req, { param }) {
 
     const { id } = await param;
 

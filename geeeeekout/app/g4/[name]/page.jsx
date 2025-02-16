@@ -67,7 +67,7 @@ export default function subcomm({ params }) {
         <NavMenu></NavMenu>
         <div className="flex flex-col items-center gap-4 p-4">
             {/* Iframe Placeholder */}
-
+            
             <ComboardWrapper boards={postits} hover={hover}></ComboardWrapper>
             <div className="absolute right-0 top-0 h-full overflow-hidden">
                 <SideBar boards={boards} hoverCallback={setHover}></SideBar>
