@@ -65,6 +65,11 @@ export default function landing() {
       })
     }
 
+    if (response.status === 200) {
+      const data = await response.json()
+      localStorage.setItem('user_id', data.user_id)
+      window.location.href = '/home'
+    }
   }
 
   const click = () => {
