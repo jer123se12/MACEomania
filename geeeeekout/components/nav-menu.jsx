@@ -27,7 +27,7 @@ function NavMenu() {
                 <NavigationMenu>
                     <NavigationMenuList className="flex space-x-4">
                         <NavigationMenuItem>
-                            <NavigationMenuLink href="/" className="text-gray-700 hover:text-black">
+                            <NavigationMenuLink href="/home" className="text-gray-700 hover:text-black">
                                 Dashboard
                             </NavigationMenuLink>
                         </NavigationMenuItem>
