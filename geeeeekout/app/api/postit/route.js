@@ -32,6 +32,7 @@ export async function POST(req) {
     const data = await createPostit(creator_id, community_id, html_url, position_x, position_y, size_width, size_height);
 
     if (data.error) {
+        console.error(data.error);
         return new Response(JSON.stringify(data), {
             status: 500,
             headers: {

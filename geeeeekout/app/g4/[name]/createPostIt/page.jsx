@@ -33,14 +33,14 @@ export default function createIt({params}) {
 
         fetch('/api/community/' + community).then((res) => res.json()).then((data) => {
             let community_id = data[0].community_id;
-
+            let USER_ID = localStorage.getItem("user_id");
         fetch('/api/postit', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    creator_id: 1,
+                    creator_id: USER_ID,
                     community_id: community_id,
                     html_url: "",
                     position_x: x,
