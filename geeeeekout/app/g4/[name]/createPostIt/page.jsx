@@ -43,8 +43,6 @@ export default function createIt({params}) {
                     creator_id: 1,
                     community_id: community_id,
                     html_url: "",
-                    css_url: "",
-                    js_url: "",
                     position_x: x,
                     position_y: y,
                     size_width: width,
