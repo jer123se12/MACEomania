@@ -5,7 +5,7 @@ import pool from '@/lib/db';
 export async function getAllFollows() {
 
     const QUERY = `
-    SELECT f.follow_id, u.username, c.name FROM follow AS f
+    SELECT f.follow_id, u.username, c.name, c.image_url FROM follow AS f
     INNER JOIN user AS u ON f.user_id = u.user_id
     INNER JOIN community AS c ON f.community_id = c.community_id
     `;
@@ -38,7 +38,7 @@ export async function createFollow(user_id, community_id) {
 export async function getFollowById(id) {
 
     const QUERY = `
-    SELECT f.follow_id, u.username, c.name FROM follow AS f
+    SELECT f.follow_id, u.username, c.name, c.image_url FROM follow AS f
     INNER JOIN user AS u ON f.user_id = u.user_id
     INNER JOIN community AS c ON f.community_id = c.community_id
     WHERE f.follow_id = ?
@@ -57,7 +57,7 @@ export async function getFollowById(id) {
 export async function getFollowsByUserId(user_id) {
 
     const QUERY = `
-    SELECT f.follow_id, u.username, c.name FROM follow AS f
+    SELECT f.follow_id, u.username, c.name, c.image_url FROM follow AS f
     INNER JOIN user AS u ON f.user_id = u.user_id
     INNER JOIN community AS c ON f.community_id = c.community_id
     WHERE f.user_id = ?
@@ -76,7 +76,7 @@ export async function getFollowsByUserId(user_id) {
 export async function getFollowsByCommunityId(community_id) {
 
     const QUERY = `
-    SELECT f.follow_id, u.username, c.name FROM follow AS f
+    SELECT f.follow_id, u.username, c.name, c.image_url FROM follow AS f
     INNER JOIN user AS u ON f.user_id = u.user_id
     INNER JOIN community AS c ON f.community_id = c.community_id
     WHERE f.community_id = ?
