@@ -105,6 +105,11 @@ export default function createIt({params}) {
         <html>
         <head>
         <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
         ${css}
         </style>
         </head>

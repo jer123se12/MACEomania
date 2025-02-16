@@ -130,3 +130,19 @@ export async function updatePostitHTMLById(id, html_url) {
         return {error: error.message};
     }
 }
+
+export async function incrementPostitUpvotesById(id) {
+    
+    const QUERY = `
+    UPDATE postit SET upvotes = upvotes + 1 WHERE postit_id = ?;
+    `;
+
+    const VALUES = [id];
+
+    try {
+        await pool.query(QUERY, VALUES);
+        return {results: "Postit upvotes incremented"};
+    } catch (error) {
+        return {error: error.message};
+    }
+}
